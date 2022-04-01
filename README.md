@@ -1,4 +1,4 @@
-# GitOps Example Apps
+# GitOps Demo Apps
 
 This repository contains example applications for demoing Harnesss GitOps functionality. Feel free
 to register this repository to your ArgoCD instance, or fork this repo and push your own commits
@@ -19,5 +19,3 @@ to explore ArgoCD and GitOps!
 | [plugins](plugins/) | Apps which demonstrate config management plugins usage |
 | [blue-green](blue-green/) | Demonstrates how to implement blue-green deployment using [Argo Rollouts](https://github.com/argoproj/argo-rollouts)
 | [apps](apps/) | An app composed of other apps |
-# gitops-demo
-# gitops-demo
