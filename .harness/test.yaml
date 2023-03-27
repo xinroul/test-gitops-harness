@@ -12,18 +12,6 @@ pipeline:
         type: Deployment
         spec:
           deploymentType: Kubernetes
-          environment:
-            environmentRef: dev_1674188621788
-            environmentInputs:
-              identifier: dev_1674188621788
-              type: PreProduction
-              variables:
-                - name: abc
-                  type: String
-                  value: <+input>
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: devcluster_1674188621788
           execution:
             steps:
               - step:
@@ -84,10 +72,25 @@ pipeline:
                           sources: <+input>
             metadata:
               parallel: true
+          environments:
+            metadata:
+              parallel: true
+            values:
+              - environmentRef: dev_1674188621788
+                environmentInputs:
+                  identifier: dev_1674188621788
+                  type: PreProduction
+                  variables:
+                    - name: abc
+                      type: String
+                      value: <+input>
+                deployToAll: false
+                infrastructureDefinitions:
+                  - identifier: devcluster_1674188621788
         tags: {}
         failureStrategies:
           - onFailure:
               errors:
                 - AllErrors
               action:
-                type: StageRollback
+                type: MarkAsFailure
