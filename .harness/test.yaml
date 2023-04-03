@@ -1,3 +1,96 @@
-inputSetReferences:
-            - kksets
-            - kksets_sec
+pipeline:
+  name: test
+  identifier: test
+  projectIdentifier: Shantelle_Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: sample
+        identifier: sample
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          execution:
+            steps:
+              - step:
+                  name: Rollout Deployment
+                  identifier: rolloutDeployment
+                  type: K8sRollingDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: export output = "abccc"
+                    environmentVariables:
+                      - name: inputA
+                        type: String
+                        value: "123"
+                    outputVariables:
+                      - name: Outputabc
+                        type: String
+                        value: output
+                  timeout: 10m
+            rollbackSteps:
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec:
+                    pruningEnabled: false
+          services:
+            values:
+              - serviceRef: deploytype
+                serviceInputs:
+                  serviceDefinition:
+                    type: Kubernetes
+                    spec:
+                      artifacts:
+                        primary:
+                          primaryArtifactRef: <+input>
+                          sources: <+input>
+              - serviceRef: test2
+                serviceInputs:
+                  serviceDefinition:
+                    type: Kubernetes
+                    spec:
+                      artifacts:
+                        primary:
+                          primaryArtifactRef: <+input>
+                          sources: <+input>
+            metadata:
+              parallel: true
+          environments:
+            metadata:
+              parallel: true
+            values:
+              - environmentRef: dev_1674188621788
+                environmentInputs:
+                  identifier: dev_1674188621788
+                  type: PreProduction
+                  variables:
+                    - name: abc
+                      type: String
+                      value: <+input>
+                deployToAll: false
+                infrastructureDefinitions:
+                  - identifier: devcluster_1674188621788
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: MarkAsFailure
