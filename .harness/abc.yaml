@@ -1,3 +1,24 @@
-inputSetReferences:
-            - kksets
-            - kksets_sec
+import * as pulumi from "@pulumi/pulumi";
+import * as harness from "@pulumi/harness";
+
+const example = new harness.platform.InputSet("example", {
+    identifier: "identifier",
+    orgId: "org_id",
+    pipelineId: "pipeline_id",
+    projectId: "project_id",
+    tags: ["foo:bar"],
+    yaml: `    inputSet:
+      identifier: "identifier"
+      name: "name"
+      tags:
+        foo: "bar"
+      orgIdentifier: "org_id"
+      projectIdentifier: "project_id"
+      pipeline:
+        identifier: "pipeline_id"
+        variables:
+        - name: "key"
+          type: "String"
+          value: "value"
+`,
+});
