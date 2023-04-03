@@ -1,8 +1,4 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as harness from "@pulumi/harness";
-
-const example = new harness.platform.InputSet("example", {
-    identifier: "identifier",
+identifier: "identifier",
     orgId: "org_id",
     pipelineId: "pipeline_id",
     projectId: "project_id",
@@ -20,5 +16,3 @@ const example = new harness.platform.InputSet("example", {
         - name: "key"
           type: "String"
           value: "value"
-`,
-});
