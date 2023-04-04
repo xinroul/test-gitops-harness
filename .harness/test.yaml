@@ -94,3 +94,4 @@ pipeline:
                 - AllErrors
               action:
                 type: MarkAsFailure
+  description: sbv
