@@ -95,3 +95,4 @@ pipeline:
               action:
                 type: MarkAsFailure
   description: sbv
+  allowStageExecutions: true
