@@ -15,14 +15,6 @@ pipeline:
           execution:
             steps:
               - step:
-                  name: Rollout Deployment
-                  identifier: rolloutDeployment
-                  type: K8sRollingDeploy
-                  timeout: 10m
-                  spec:
-                    skipDryRun: false
-                    pruningEnabled: false
-              - step:
                   type: ShellScript
                   name: ShellScript_1
                   identifier: ShellScript_1
@@ -42,6 +34,56 @@ pipeline:
                         type: String
                         value: output
                   timeout: 10m
+              - parallel:
+                  - step:
+                      type: Http
+                      name: Http_1
+                      identifier: Http_1
+                      spec:
+                        url: <+input>
+                        method: GET
+                        headers: []
+                        outputVariables: []
+                        requestBody: <+input>
+                      timeout: 2m
+                  - step:
+                      type: Http
+                      name: Http_2
+                      identifier: Http_2
+                      spec:
+                        url: <+input>
+                        method: GET
+                        headers: []
+                        outputVariables: []
+                        requestBody: abc
+                      timeout: 2m
+              - stepGroup:
+                  name: asd
+                  identifier: asd
+                  steps:
+                    - parallel:
+                        - step:
+                            type: Http
+                            name: Http_3
+                            identifier: Http_3
+                            spec:
+                              url: <+input>
+                              method: GET
+                              headers: []
+                              outputVariables: []
+                              requestBody: abc
+                            timeout: 2m
+                        - step:
+                            type: Http
+                            name: Http_4
+                            identifier: Http_4
+                            spec:
+                              url: <+input>
+                              method: GET
+                              headers: []
+                              outputVariables: []
+                              requestBody: abc
+                            timeout: 2m
             rollbackSteps:
               - step:
                   name: Rollback Rollout Deployment
